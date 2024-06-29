@@ -44,9 +44,8 @@ public class DistanceService {
         return totalDistance;
     }
 
-    double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-        // Haversine formula to calculate the distance between two points on the Earth's surface
-        final int R = 100; // Radius of the earth in km
+    public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+        final int R = 6371;
 
         double latDistance = Math.toRadians(lat2 - lat1);
         double lonDistance = Math.toRadians(lon2 - lon1);

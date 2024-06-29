@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.io.Serial;
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -31,11 +32,13 @@ public class Courier extends BaseEntity<Long> {
     @NotBlank
     private String username;
 
+    @Builder.Default
     @Column(name = "total_distance")
     private double totalDistance = 0.0;
 
 
     @OneToMany(mappedBy = "courier", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<CourierLocationLog> locationLogs;
+    @Builder.Default
+    private List<CourierLocationLog> locationLogs = new LinkedList<>();
 }

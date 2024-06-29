@@ -23,9 +23,6 @@ import java.util.Optional;
 public class CourierController {
 
     @Autowired
-    private CourierRepository courierRepository;
-
-    @Autowired
     private DistanceService distanceService;
 
     @Autowired
@@ -54,7 +51,7 @@ public class CourierController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCourier(@PathVariable Long id) {
-        courierRepository.deleteById(id);
+        courierService.deleteCourierById(id);
         return ResponseEntity.noContent().build();
     }
 

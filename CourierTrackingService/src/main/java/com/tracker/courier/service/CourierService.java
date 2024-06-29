@@ -26,6 +26,9 @@ public class CourierService {
     private CourierRepository courierRepository;
 
     @Autowired
+    private DistanceService distanceService;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @Transactional()
@@ -55,6 +58,13 @@ public class CourierService {
     }
 
     @Transactional
+    public void updateTotalDistanceForCourier(Courier courier) {
+        double calculatedDistance = distanceService.calculateTotalDistance(courier.getId());
+        courier.setTotalDistance(calculatedDistance);
+        courierRepository.save(courier);
+    }
+
+    @Transactional
     public void deleteCourierById(Long id) {
         courierRepository.deleteById(id);
     }
@@ -74,7 +84,7 @@ public class CourierService {
     }
 
 
-    private CourierLocationLogDto convertToLocationLogDto(CourierLocationLog locationLog) {
+     CourierLocationLogDto convertToLocationLogDto(CourierLocationLog locationLog) {
         CourierLocationLogDto locationLogDto = objectMapper.convertValue(locationLog, CourierLocationLogDto.class);
         locationLogDto.setCourierId(locationLog.getCourier().getId());
         return locationLogDto;
