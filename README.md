@@ -27,13 +27,15 @@ To calculate the travel distance of a courier, the Haversine formula is used. Th
 The DistanceService contains the logic to compute the distance between consecutive location logs for a given courier.
 
 There are two methods for calculating the total distance:
+
 1. #### Real-time Update:
 
-Every time a new location log is added, the system calculates the distance from the previous log and updates the total distance for the courier.
+Every time a new location log is added, the system calculates the distance from the previous log and updates the total distance for the courier. Thus, the total distance information for the courier can be quickly retrieved through a query.
 
 2. #### Batch Calculation:
-In case of any system failures or missed updates, the total distance can be recalculated by fetching all location logs, sorting them by timestamp in reverse order, and summing up the distances between consecutive logs.
-As a precaution against any system issues that may prevent real-time updates, the system recalculates the total distance for each courier from the location logs every hour. This ensures that the distance data remains accurate and up-to-date.
+
+In case of any system failures or missed updates, the total distance can be recalculated by fetching all location logs of couriers, sorting them by timestamp in reverse order, and summing up the distances between consecutive logs.
+As a precaution against any system issues that may prevent real-time updates, the system recalculates the total distance for each courier from the location logs every hour using a scheduled job. This ensures that the distance data remains accurate and up-to-date.
 
 ### Store Proximity Detection:
 
