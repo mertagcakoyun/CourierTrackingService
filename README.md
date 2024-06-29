@@ -53,7 +53,6 @@ If a courier logs a location within 100 meters of the same store within a minute
 
 ```
 docker-compose up --build
-
 ```
 - Access the application:
 
@@ -63,5 +62,49 @@ http://localhost:8080
 ```
 Swagger UI for API documentation and testing: http://localhost:8080/swagger-ui.html.
 
-## Example Request
+## Example Request
+
+### Create Courier
+
+```
+curl --location 'http://localhost:8080/courier' \
+--header 'Content-Type: application/json' \
+--data '{
+     "username": "mert.agcakoyun"
+}'
+```
+### Get Courier
+```
+curl --location 'http://localhost:8080/courier/2'
+```
+
+### List Couriers
+```
+curl --location 'http://localhost:8080/courier?page=0&size=10'
+```
+
+### Save Location Log
+```
+curl --location 'http://localhost:8080/courier-location' \
+--header 'Content-Type: application/json' \
+--data '{
+   "courierId":2,
+    "lat": 40.9953232,
+    "lng": 29.1244521
+}'
+```
+### Get Total Distance of Courier
+```
+curl --location 'http://localhost:8080/courier/2/distance'
+```
+
+### Get Total Distance of Courier
+```
+curl --location 'http://localhost:8080/courier/2/distance'
+```
+### Get Store Entrance History of Courier
+```
+curl --location 'http://localhost:8080/api/store-entrance-logs/courier/2?page=0&size=1' \
+--data ''
+```
 
