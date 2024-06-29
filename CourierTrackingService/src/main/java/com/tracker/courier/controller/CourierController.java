@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/courier")
+@RequestMapping("/api/courier")
 public class CourierController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class CourierController {
     @Autowired
     private CourierService courierService;
 
-    // Get all Couriers with pagination
+
     @GetMapping
     public ResponseEntity<Page<CourierDto>> getAllCouriers(Pageable pageable) {
         Page<CourierDto> couriers = courierService.getAllCouriers(pageable);
@@ -58,13 +58,15 @@ public class CourierController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}/distance")
-    public Double getTotalTravelDistance(@PathVariable Long id) {
-        return distanceService.calculateTotalDistance(id);
+    @GetMapping("/{id}/distanceV2")
+    public ResponseEntity<Double> getTotalTravelDistance(@PathVariable Long id) {
+        double calculatedDistance = distanceService.calculateTotalDistance(id);
+        return ResponseEntity.ok(calculatedDistance);
     }
 
-    @GetMapping("/{id}/distanceV2")
-    public Double getTotalTravelDistanceFromDB(@PathVariable Long id) {
-        return distanceService.getTotalDistanceFromDB(id);
+    @GetMapping("/{id}/distance")
+    public ResponseEntity<Double> getTotalTravelDistanceFromDB(@PathVariable Long id) {
+        double queriedDistanceFromDB = distanceService.getTotalDistanceFromDB(id);
+        return ResponseEntity.ok(queriedDistanceFromDB);
     }
 }

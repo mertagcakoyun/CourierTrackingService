@@ -1,6 +1,7 @@
 package com.tracker.courier.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tracker.common.exception.ResourceNotFoundException;
 import com.tracker.courier.dto.CourierDto;
 import com.tracker.courier.dto.CourierLocationLogDto;
 import com.tracker.courier.dto.request.CourierRequest;
@@ -8,6 +9,7 @@ import com.tracker.courier.entity.Courier;
 import com.tracker.courier.entity.CourierLocationLog;
 import com.tracker.courier.repository.CourierLocationLogRepository;
 import com.tracker.courier.repository.CourierRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +28,7 @@ public class CourierService {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Transactional()
     public CourierDto saveCourier(CourierRequest courierRequest) {
         Courier courier = objectMapper.convertValue(courierRequest, Courier.class);
         courier.setTotalDistance(0.0);
@@ -33,10 +36,12 @@ public class CourierService {
         return convertToDto(savedCourier);
     }
 
+    @Transactional
     public Optional<CourierDto> getCourierById(Long id) {
         return courierRepository.findById(id).map(this::convertToDto);
     }
 
+    @Transactional
     public CourierDto updateCourier(Long id, CourierRequest courierRequest) {
         Optional<Courier> optionalCourier = courierRepository.findById(id);
         if (optionalCourier.isPresent()) {
@@ -45,19 +50,20 @@ public class CourierService {
             Courier savedCourier = courierRepository.save(courier);
             return convertToDto(savedCourier);
         } else {
-            throw new RuntimeException("Courier not found");
+            throw new ResourceNotFoundException("Courier not found");
         }
     }
 
+    @Transactional
     public void deleteCourierById(Long id) {
         courierRepository.deleteById(id);
     }
 
+    @Transactional
     public Page<CourierDto> getAllCouriers(Pageable pageable) {
         return courierRepository.findAll(pageable).map(this::convertToDto); // todo stackoverflow exception
     }
 
-    // Convert Courier entity to CourierDto
     private CourierDto convertToDto(Courier courier) {
         CourierDto courierDto = objectMapper.convertValue(courier, CourierDto.class);
         List<CourierLocationLogDto> locationLogs = courier.getLocationLogs().stream()
@@ -67,7 +73,7 @@ public class CourierService {
         return courierDto;
     }
 
-    // Convert CourierLocationLog entity to CourierLocationLogDto
+
     private CourierLocationLogDto convertToLocationLogDto(CourierLocationLog locationLog) {
         CourierLocationLogDto locationLogDto = objectMapper.convertValue(locationLog, CourierLocationLogDto.class);
         locationLogDto.setCourierId(locationLog.getCourier().getId());

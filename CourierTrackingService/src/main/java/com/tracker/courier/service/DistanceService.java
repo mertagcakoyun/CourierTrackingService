@@ -1,5 +1,6 @@
 package com.tracker.courier.service;
 
+import com.tracker.common.exception.ResourceNotFoundException;
 import com.tracker.courier.entity.Courier;
 import com.tracker.courier.entity.CourierLocationLog;
 import com.tracker.courier.repository.CourierLocationLogRepository;
@@ -12,7 +13,6 @@ import java.util.Optional;
 
 @Service
 public class DistanceService {
-
     @Autowired
     private CourierLocationLogRepository locationLogRepository;
 
@@ -20,11 +20,11 @@ public class DistanceService {
     private CourierRepository courierRepository;
 
     public double getTotalDistanceFromDB(Long courierId) {
-        Optional<Courier> courier= courierRepository.findById(courierId);
-        if (courier.isEmpty()){
-            throw new RuntimeException("courier not found");
+        Optional<Courier> courier = courierRepository.findById(courierId);
+        if (courier.isEmpty()) {
+            throw new ResourceNotFoundException("courier not found");
         }
-        if (!courier.get().getLocationLogs().isEmpty()){
+        if (!courier.get().getLocationLogs().isEmpty()) {
             return courier.get().getTotalDistance();
         }
         return 0.0;
@@ -44,9 +44,9 @@ public class DistanceService {
         return totalDistance;
     }
 
-    private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+    double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         // Haversine formula to calculate the distance between two points on the Earth's surface
-        final int R = 6371; // Radius of the earth in km
+        final int R = 100; // Radius of the earth in km
 
         double latDistance = Math.toRadians(lat2 - lat1);
         double lonDistance = Math.toRadians(lon2 - lon1);
@@ -54,7 +54,7 @@ public class DistanceService {
                 + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = R * c * 1000; // convert to meters
+        double distance = R * c * 1000;
 
         return distance;
     }

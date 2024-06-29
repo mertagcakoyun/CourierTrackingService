@@ -1,19 +1,23 @@
-package com.tracker.store.service;
+package com.tracker.store.config;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tracker.store.entity.Store;
 import com.tracker.store.repository.StoreRepository;
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class StoreService {
+@Component
+public class StoreDataLoader {
+    private final Logger logger = LoggerFactory.getLogger(StoreDataLoader.class);
 
     @Autowired
     private StoreRepository storeRepository;
@@ -33,13 +37,13 @@ public class StoreService {
                 Optional<Store> existingStore = storeRepository.findByName(store.getName());
                 if (!existingStore.isPresent()) {
                     storeRepository.save(store);
-                    System.out.println("Store saved: " + store.getName());
+                    logger.info("Store saved: " + store.getName());
                 } else {
-                    System.out.println("Store already exists: " + store.getName());
+                    logger.info("Store already exists: " + store.getName());
                 }
             }
         } catch (Exception e) {
-            System.out.println("Unable to save stores: " + e.getMessage());
+            logger.error("Unable to save stores: " + e.getMessage());
         }
     }
 }
