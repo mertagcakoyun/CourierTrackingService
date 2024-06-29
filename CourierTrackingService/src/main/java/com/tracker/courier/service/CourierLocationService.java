@@ -23,7 +23,6 @@ import java.util.Optional;
 
 @Service
 public class CourierLocationService {
-
     @Autowired
     private CourierLocationLogRepository locationLogRepository;
 
@@ -83,11 +82,12 @@ public class CourierLocationService {
         throw new OptimisticLockingException("Unexpected error while updating Courier");
     }
 
-    private void checkStoreProximity(CourierLocationLog locationLog) {
+    void checkStoreProximity(CourierLocationLog locationLog) {
+        int STORE_DISTANCE_RADIUS = 100;
         List<Store> stores = storeRepository.findAll();
         for (Store store : stores) {
             double distance = distanceService.calculateDistance(locationLog.getLat(), locationLog.getLng(), store.getLat(), store.getLng());
-            if (distance <= 100 && !storeEntranceService.isReEntry(locationLog.getCourier().getId(), store.getId(), locationLog.getTimestamp())) {
+            if (distance <= STORE_DISTANCE_RADIUS && !storeEntranceService.isReEntry(locationLog.getCourier().getId(), store.getId(), locationLog.getTimestamp())) {
                 storeEntranceService.logEntrance(locationLog.getCourier(), store, locationLog.getLat(), locationLog.getLng());
             }
         }
