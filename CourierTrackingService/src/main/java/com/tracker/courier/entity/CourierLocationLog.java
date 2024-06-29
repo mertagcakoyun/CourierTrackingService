@@ -1,5 +1,7 @@
 package com.tracker.courier.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tracker.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,11 +34,12 @@ public class CourierLocationLog extends BaseEntity<Long> {
     private Double lng;
 
     @Column(name = "time", nullable = false)
-    private LocalDateTime timestamp;
+    private LocalDateTime timestamp; // todo renaming to time or date
 
     @ToString.Include
     @EqualsAndHashCode.Include
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "courier_id", referencedColumnName = "id", nullable = false)
+    @JsonBackReference
     private Courier courier;
 }

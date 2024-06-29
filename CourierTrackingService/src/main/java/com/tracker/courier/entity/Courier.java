@@ -1,5 +1,6 @@
 package com.tracker.courier.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tracker.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -30,6 +31,11 @@ public class Courier extends BaseEntity<Long> {
     @NotBlank
     private String username;
 
+    @Column(name = "total_distance")
+    private double totalDistance = 0.0;
+
+
     @OneToMany(mappedBy = "courier", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<CourierLocationLog> locationLogs;
 }
