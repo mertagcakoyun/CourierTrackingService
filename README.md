@@ -93,15 +93,12 @@ curl --location 'http://localhost:8080/courier-location' \
     "lng": 29.1244521
 }'
 ```
-### Get Total Distance of Courier
-```
-curl --location 'http://localhost:8080/courier/2/distance'
-```
 
 ### Get Total Distance of Courier
 ```
 curl --location 'http://localhost:8080/courier/2/distance'
 ```
+
 ### Get Store Entrance History of Courier
 ```
 curl --location 'http://localhost:8080/api/store-entrance-logs/courier/2?page=0&size=1' \
