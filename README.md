@@ -69,7 +69,7 @@ Swagger UI for API documentation and testing: http://localhost:8080/swagger-ui.h
 ### Create Courier
 
 ```
-curl --location 'http://localhost:8080/courier' \
+curl --location 'http://localhost:8080/api/courier' \
 --header 'Content-Type: application/json' \
 --data '{
      "username": "mert.agcakoyun"
@@ -77,17 +77,17 @@ curl --location 'http://localhost:8080/courier' \
 ```
 ### Get Courier
 ```
-curl --location 'http://localhost:8080/courier/2'
+curl --location 'http://localhost:8080/api/courier/2'
 ```
 
 ### List Couriers
 ```
-curl --location 'http://localhost:8080/courier?page=0&size=10'
+curl --location 'http://localhost:8080/api/courier?page=0&size=10'
 ```
 
 ### Save Location Log
 ```
-curl --location 'http://localhost:8080/courier-location' \
+curl --location 'http://localhost:8080/api/courier-location' \
 --header 'Content-Type: application/json' \
 --data '{
    "courierId":2,
@@ -98,7 +98,7 @@ curl --location 'http://localhost:8080/courier-location' \
 
 ### Get Total Distance of Courier
 ```
-curl --location 'http://localhost:8080/courier/2/distance'
+curl --location 'http://localhost:8080/api/courier/2/distance'
 ```
 
 ### Get Store Entrance History of Courier
