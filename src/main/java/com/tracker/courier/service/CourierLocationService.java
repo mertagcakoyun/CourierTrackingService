@@ -3,6 +3,8 @@ package com.tracker.courier.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tracker.common.exception.OptimisticLockingException;
 import com.tracker.common.exception.ResourceNotFoundException;
+import com.tracker.common.service.DistanceService;
+import com.tracker.common.service.HaversineDistanceCalculation;
 import com.tracker.courier.dto.CourierLocationLogDto;
 import com.tracker.courier.entity.Courier;
 import com.tracker.courier.entity.CourierLocationLog;
@@ -20,6 +22,12 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+/**
+ * Service class for managing courier location logs.
+ * Handles logging new courier locations, calculating distances, and checking store proximity.
+ * Uses repositories for data access and integrates with StoreEntranceLogService for logging store entrances.
+ * Implements retry logic for handling optimistic locking exceptions during updates.
+ */
 
 @Service
 public class CourierLocationService {
@@ -33,14 +41,14 @@ public class CourierLocationService {
     private StoreRepository storeRepository;
 
     @Autowired
-    private DistanceService distanceService;
-
-    @Autowired
     private StoreEntranceLogService storeEntranceService;
-
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private HaversineDistanceCalculation haversineDistanceCalculation;
+
 
     @Transactional
     public CourierLocationLogDto logLocation(CourierLocationLogRequest locationLogRequest) {
@@ -61,7 +69,7 @@ public class CourierLocationService {
                     List<CourierLocationLog> logs = courier.getLocationLogs();
                     if (!logs.isEmpty()) {
                         CourierLocationLog lastLog = logs.get(logs.size() - 1);
-                        double distance = distanceService.calculateDistance(lastLog.getLat(), lastLog.getLng(), locationLog.getLat(), locationLog.getLng());
+                        double distance = haversineDistanceCalculation.calculateDistance(lastLog.getLat(), lastLog.getLng(), locationLog.getLat(), locationLog.getLng());
                         courier.setTotalDistance(courier.getTotalDistance() + distance);
                         courierRepository.save(courier);
                     }
@@ -86,7 +94,7 @@ public class CourierLocationService {
         int STORE_DISTANCE_RADIUS = 100;
         List<Store> stores = storeRepository.findAll();
         for (Store store : stores) {
-            double distance = distanceService.calculateDistance(locationLog.getLat(), locationLog.getLng(), store.getLat(), store.getLng());
+            double distance = haversineDistanceCalculation.calculateDistance(locationLog.getLat(), locationLog.getLng(), store.getLat(), store.getLng());
             if (distance <= STORE_DISTANCE_RADIUS && !storeEntranceService.isReEntry(locationLog.getCourier().getId(), store.getId(), locationLog.getTimestamp())) {
                 storeEntranceService.logEntrance(locationLog.getCourier(), store, locationLog.getLat(), locationLog.getLng());
             }

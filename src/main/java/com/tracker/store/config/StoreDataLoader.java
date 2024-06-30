@@ -13,6 +13,12 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
+/**
+ * Component class for loading store data from a JSON file into the database.
+ * Uses a @PostConstruct method to load the data when the application starts.
+ * Checks if a store already exists in the database before saving to avoid duplicates.
+ * Uses Jackson for JSON parsing and logging for recording the process.
+ */
 
 @Component
 public class StoreDataLoader {

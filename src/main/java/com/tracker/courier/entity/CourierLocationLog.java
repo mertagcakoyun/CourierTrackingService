@@ -7,7 +7,12 @@ import lombok.*;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
-
+/**
+ * Entity class representing a log of a courier's location.
+ * Extends BaseEntity to inherit common fields and functionality.
+ * Contains fields for ID, latitude, longitude, timestamp, and a reference to the courier.
+ * Uses JPA annotations for ORM mapping and Lombok annotations for boilerplate code generation.
+ */
 @Getter
 @Setter
 @ToString

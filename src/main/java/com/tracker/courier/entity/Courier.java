@@ -2,6 +2,7 @@ package com.tracker.courier.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tracker.common.entity.BaseEntity;
+import com.tracker.store.entity.StoreEntranceLog;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -9,7 +10,12 @@ import lombok.*;
 import java.io.Serial;
 import java.util.LinkedList;
 import java.util.List;
-
+/**
+ * Entity class representing a courier.
+ * Extends BaseEntity to inherit common fields and functionality.
+ * Contains fields for ID, username, total distance traveled, and a list of location logs.
+ * Uses JPA annotations for ORM mapping and Lombok annotations for boilerplate code generation.
+ */
 @Getter
 @Setter
 @ToString

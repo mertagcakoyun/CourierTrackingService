@@ -2,6 +2,7 @@ package com.tracker.courier.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tracker.common.exception.ResourceNotFoundException;
+import com.tracker.common.service.DistanceService;
 import com.tracker.courier.dto.CourierDto;
 import com.tracker.courier.dto.CourierLocationLogDto;
 import com.tracker.courier.dto.request.CourierRequest;
@@ -17,6 +18,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+/**
+ * Service class for managing couriers.
+ * Handles operations such as saving, updating, retrieving, and deleting couriers, as well as updating their total distance.
+ * Uses repositories for data access and integrates with DistanceService for distance calculations.
+ * Implements methods for converting entity objects to DTOs for API responses.
+ */
 
 @Service
 public class CourierService {

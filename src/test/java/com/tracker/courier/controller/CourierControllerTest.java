@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tracker.courier.dto.CourierDto;
 import com.tracker.courier.dto.request.CourierRequest;
 import com.tracker.courier.service.CourierService;
-import com.tracker.courier.service.DistanceService;
+import com.tracker.common.service.DistanceService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;

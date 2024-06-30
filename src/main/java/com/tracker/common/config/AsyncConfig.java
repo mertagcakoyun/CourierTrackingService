@@ -7,6 +7,11 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 
+/**
+ * Configuration class for enabling asynchronous processing and configuring a thread pool executor.
+ * Defines a ThreadPoolTaskExecutor bean with specified core pool size, max pool size, and queue capacity.
+ * This setup allows for efficient handling of asynchronous tasks in the application.
+ */
 @Configuration
 @EnableAsync
 public class AsyncConfig {

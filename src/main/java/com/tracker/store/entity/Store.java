@@ -2,6 +2,11 @@ package com.tracker.store.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+/**
+ * Entity class representing a store.
+ * Contains fields for ID, name, latitude, and longitude.
+ * Uses JPA annotations for ORM mapping and Lombok annotations for boilerplate code generation.
+ */
 
 @Getter
 @Setter
@@ -24,5 +29,4 @@ public class Store {
 
     @Column(name = "longitude", nullable = false)
     private double lng;
-    // getters and setters
 }

@@ -3,7 +3,7 @@ package com.tracker.courier.controller;
 import com.tracker.courier.dto.CourierDto;
 import com.tracker.courier.dto.request.CourierRequest;
 import com.tracker.courier.service.CourierService;
-import com.tracker.courier.service.DistanceService;
+import com.tracker.common.service.DistanceService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-
+/**
+ * REST controller for managing courier-related operations.
+ * Provides endpoints for retrieving, creating, and deleting couriers, as well as calculating the total travel distance.
+ * Uses CourierService for courier-related business logic and DistanceService for distance calculations.
+ */
 @RestController
 @RequestMapping("/api/courier")
 public class CourierController {

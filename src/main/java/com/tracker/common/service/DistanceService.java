@@ -1,4 +1,4 @@
-package com.tracker.courier.service;
+package com.tracker.common.service;
 
 import com.tracker.common.exception.ResourceNotFoundException;
 import com.tracker.courier.entity.Courier;
@@ -11,13 +11,26 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class responsible for handling operations related to calculating the distance traveled by couriers.
+ * It interacts with repositories to fetch courier data and location logs, and uses a strategy pattern for distance calculation.
+ * Provides methods to retrieve the total distance from the database and to calculate the distance from location logs.
+ */
 @Service
 public class DistanceService {
+
     @Autowired
     private CourierLocationLogRepository locationLogRepository;
 
     @Autowired
     private CourierRepository courierRepository;
+
+    private final DistanceCalculationStrategy distanceCalculationStrategy;
+
+    @Autowired
+    public DistanceService(DistanceCalculationStrategy distanceCalculationStrategy) {
+        this.distanceCalculationStrategy = distanceCalculationStrategy;
+    }
 
     public double getTotalDistanceFromDB(Long courierId) {
         Optional<Courier> courier = courierRepository.findById(courierId);
@@ -30,7 +43,6 @@ public class DistanceService {
         return 0.0;
     }
 
-
     public double calculateTotalDistance(Long courierId) {
         List<CourierLocationLog> locationLogs = locationLogRepository.findByCourierIdOrderByTimestampAsc(courierId);
         double totalDistance = 0.0;
@@ -38,22 +50,9 @@ public class DistanceService {
         for (int i = 1; i < locationLogs.size(); i++) {
             CourierLocationLog prev = locationLogs.get(i - 1);
             CourierLocationLog current = locationLogs.get(i);
-            totalDistance += calculateDistance(prev.getLat(), prev.getLng(), current.getLat(), current.getLng());
+            totalDistance += distanceCalculationStrategy.calculateDistance(prev.getLat(), prev.getLng(), current.getLat(), current.getLng());
         }
 
         return totalDistance;
-    }
-
-    public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-        final int R = 6371;
-
-        double latDistance = Math.toRadians(lat2 - lat1);
-        double lonDistance = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        return R * c * 1000;
     }
 }

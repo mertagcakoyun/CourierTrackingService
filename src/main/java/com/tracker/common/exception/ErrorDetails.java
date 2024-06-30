@@ -6,7 +6,11 @@ import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
-
+/**
+ * Class representing the details of an error response.
+ * Contains fields for the timestamp, HTTP status, error message, and additional details.
+ * Used to structure the error response returned by the global exception handler.
+ */
 @Getter
 @Setter
 public class ErrorDetails {

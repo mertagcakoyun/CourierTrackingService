@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+/**
+ * Global exception handler class to handle specific exceptions across the whole application.
+ * Uses @ControllerAdvice to apply globally to all controllers.
+ * Provides methods to handle ResourceNotFoundException, OptimisticLockingException, and generic exceptions.
+ * Returns appropriate HTTP status codes and error details in the response.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

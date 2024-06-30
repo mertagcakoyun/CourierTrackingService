@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * REST controller for managing store entrance logs.
+ * Provides an endpoint to retrieve entrance logs by courier ID with pagination support.
+ * Uses StoreEntranceLogService to handle the business logic for retrieving logs.
+ */
 
 @RestController
 @RequestMapping("/api/store-entrance-logs")

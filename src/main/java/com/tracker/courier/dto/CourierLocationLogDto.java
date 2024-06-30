@@ -4,6 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+/**
+ * Data transfer object (DTO) for courier location log information.
+ * Contains fields for the log's ID, courier ID, latitude, longitude, and timestamp.
+ * Uses Lombok annotations for getter and setter methods.
+ */
 
 @Getter
 @Setter

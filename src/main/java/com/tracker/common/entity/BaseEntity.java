@@ -14,6 +14,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.io.Serializable;
 import java.time.Instant;
 
+/**
+ * Abstract base entity class to be extended by other entity classes.
+ * Provides common fields for auditing such as createdAt, createdBy, modifiedAt, modifiedBy, and version.
+ * Uses JPA and Hibernate annotations for automatic timestamping and auditing.
+ */
 @Data
 @MappedSuperclass
 @ToString(onlyExplicitlyIncluded = true)

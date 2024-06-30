@@ -15,6 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+/**
+ * Service class for managing store entrance logs.
+ * Provides methods for retrieving logs by courier ID, checking for re-entry within a minute, and logging new entrances.
+ * Uses StoreEntranceLogRepository for data access and ObjectMapper for converting entities to DTOs.
+ * Implements asynchronous logging of entrances to improve performance.
+ */
 
 @Service
 public class StoreEntranceLogService {
